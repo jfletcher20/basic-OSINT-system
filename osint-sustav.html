@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        #container {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 3rem;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: aliceblue;
+            cursor: pointer;
+            height: 400px;
+            overflow: auto;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            flex: 1;
+            text-align: right;
+            margin-right: 12px;
+        }
+
+        .form-row input {
+            flex: 3;
+        }
+
+        nav {
+            margin: 0.5rem 0;
+            flex-direction: row;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button,
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        input[type="submit"] {
+            margin-left: auto;
+            margin-right: 0;
+            margin-top: 20px;
+            display: flex;
+        }
+
+        button:hover,
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        button:active,
+        input[type="submit"]:active {
+            background-color: #3e8e41;
+        }
+
+        button:disabled,
+        input[type="submit"]:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .blue-button {
+            background-color: steelblue;
+        }
+
+        .blue-button:hover {
+            background-color: #0056b3;
+        }
+
+        .blue-button:active {
+            background-color: #0041a2;
+        }
+
+        .blue-button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        fieldset {
+            border-radius: 1rem;
+            border: none;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 400px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // Get all fieldsets
+        const fieldsets = document.querySelectorAll('fieldset');
+
+        // Add event listener to previous button
+        const previousButton = document.getElementById('previousButton');
+
+        // Add event listener to next button
+        const nextButton = document.getElementById('nextButton');
+
+        // Set initial fieldset index
+        let currentFieldsetIndex = 0;
+
+        // Function to show current fieldset
+        const showFieldset = (index) => {
+            // Hide all fieldsets
+            fieldsets.forEach((fieldset) => {
+                fieldset.hidden = true;
+            });
+
+            if (index === 0) {
+                previousButton.disabled = true;
+                nextButton.disabled = false;
+            } else if (index === fieldsets.length - 1) {
+                previousButton.disabled = false;
+                nextButton.disabled = true;
+            } else {
+                previousButton.disabled = false;
+                nextButton.disabled = false;
+            }
+
+            // Show current fieldset
+            fieldsets[index].hidden = false;
+        };
+
+        // Show initial fieldset
+        showFieldset(currentFieldsetIndex);
+
+        // Function to go to previous fieldset
+        const goToPreviousFieldset = () => {
+            if (currentFieldsetIndex > 0) {
+                currentFieldsetIndex--;
+                showFieldset(currentFieldsetIndex);
+            }
+        };
+
+        // Function to go to next fieldset
+        const goToNextFieldset = () => {
+            if (currentFieldsetIndex < fieldsets.length - 1) {
+                currentFieldsetIndex++;
+                showFieldset(currentFieldsetIndex);
+            }
+        };
+        previousButton.addEventListener('click', goToPreviousFieldset);
+        nextButton.addEventListener('click', goToNextFieldset);
+    });
+</script>
+
+<body>
+    <div id="container">
+        <div id="results" hidden>
+            <h2>Profile results</h2>
+            <nav>
+                <button id="editButton">Edit profile</button>
+                <div>
+                    <button id="saveWordList" class="blue-button">Save to word list</button> &nbsp;
+                    <button type="submit" id="saveButton" class="blue-button">Save to file</button>
+                </div>
+            </nav>
+            <p>You can now save your profile data to a JSON file.</p>
+            <div id="output" title="Click to save to file"></div>
+        </div>
+        <form id="profileForm">
+            <h2>Profile form</h2>
+            <nav>
+                <button id="previousButton">Previous</button>
+                <button id="nextButton">Next</button>
+            </nav>
+
+            <fieldset class="personal">
+
+                <h3>Personal Information</h3>
+                <div class="form-row">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username">
+                </div>
+
+                <div class="form-row">
+                    <label for="password">Known password</label>
+                    <input type="text" id="password" name="password">
+                </div>
+
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name">
+                </div>
+
+                <div class="form-row">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" name="lastname">
+                </div>
+
+                <div class="form-row">
+                    <label for="nickname">Nickname</label>
+                    <input type="text" id="nickname" name="nickname">
+                </div>
+
+                <div class="form-row">
+                    <label for="birthdate">Full Date of Birth</label>
+                    <input type="text" id="birthdate" name="birthdate">
+                </div>
+
+                <div class="form-row">
+                    <label for="birthyear">Year of Birth</label>
+                    <input type="text" id="birthyear" name="birthyear">
+                </div>
+
+                <div class="form-row">
+                    <label for="birthmonth">Month of Birth</label>
+                    <input type="text" id="birthmonth" name="birthmonth">
+                </div>
+
+                <div class="form-row">
+                    <label for="birthday">Day of Birth</label>
+                    <input type="text" id="birthday" name="birthday">
+                </div>
+
+                <div class="form-row">
+                    <label for="birthplace">Place of Birth</label>
+                    <input type="text" id="birthplace" name="birthplace">
+                </div>
+
+                <div class="form-row">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address">
+                </div>
+
+                <div class="form-row">
+                    <label for="phoneNumber">Phone Number</label>
+                    <input type="tel" id="phoneNumber" name="phoneNumber">
+                </div>
+
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email">
+                </div>
+
+                <div class="form-row">
+                    <label for="education">Education</label>
+                    <input type="text" id="education" name="education">
+                </div>
+
+                <div class="form-row">
+                    <label for="occupation">Occupation</label>
+                    <input type="text" id="occupation" name="occupation">
+                </div>
+
+            </fieldset>
+
+            <fieldset class="interests">
+
+                <h3>Interests</h3>
+
+                <div class="form-row">
+                    <label for="favoriteColor">Favorite Color</label>
+                    <input type="text" id="favoriteColor" name="favoriteColor">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteNumber">Favorite Number</label>
+                    <input type="text" id="favoriteNumber" name="favoriteNumber">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteFood">Favorite Food</label>
+                    <input type="text" id="favoriteFood" name="favoriteFood">
+                </div>
+
+                <div class="form-row">
+                    <label for="hobbies">Hobbies</label>
+                    <input type="text" id="hobbies" name="hobbies">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteMovie">Favorite Movie</label>
+                    <input type="text" id="favoriteMovie" name="favoriteMovie">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteMusic">Favorite Music</label>
+                    <input type="text" id="favoriteMusic" name="favoriteMusic">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteBook">Favorite Book</label>
+                    <input type="text" id="favoriteBook" name="favoriteBook">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteActor">Favorite Actor</label>
+                    <input type="text" id="favoriteActor" name="favoriteActor">
+                </div>
+
+                <div class="form-row">
+                    <label for="favoriteAuthor">Favorite Author</label>
+                    <input type="text" id="favoriteAuthor" name="favoriteAuthor">
+                </div>
+
+            </fieldset>
+
+            <fieldset class="relationships">
+
+                <h3>Relationships</h3>
+                <div class="form-row">
+                    <label for="partnerName">Partner's Name</label>
+                    <input type="text" id="partnerName" name="partnerName">
+                </div>
+
+                <div class="form-row">
+                    <label for="bestFriend">Best Friend</label>
+                    <input type="text" id="bestFriend" name="bestFriend">
+                </div>
+
+                <div class="form-row">
+                    <label for="crushName">Crush's Name</label>
+                    <input type="text" id="crushName" name="crushName">
+                </div>
+
+                <div class="form-row">
+                    <label for="petNames">Pet Names</label>
+                    <input type="text" id="petNames" name="petNames">
+                </div>
+
+            </fieldset>
+
+            <fieldset class="physical">
+
+                <h3>Physical Attributes</h3>
+                <div class="form-row">
+                    <label for="sex">Sex</label>
+                    <input type="text" id="sex" name="sex">
+                </div>
+
+                <div class="form-row">
+                    <label for="height">Height</label>
+                    <input type="text" id="height" name="height">
+                </div>
+
+                <div class="form-row">
+                    <label for="weight">Weight</label>
+                    <input type="text" id="weight" name="weight">
+                </div>
+
+                <div class="form-row">
+                    <label for="eyeColor">Eye Color</label>
+                    <input type="text" id="eyeColor" name="eyeColor">
+                </div>
+
+                <div class="form-row">
+                    <label for="hairColor">Hair Color</label>
+                    <input type="text" id="hairColor" name="hairColor">
+                </div>
+
+                <div class="form-row">
+                    <label for="bodyType">Body Type</label>
+                    <input type="text" id="bodyType" name="bodyType">
+                </div>
+
+                <div class="form-row">
+                    <label for="skinColor">Skin Color</label>
+                    <input type="text" id="skinColor" name="skinColor">
+                </div>
+
+            </fieldset>
+
+            <fieldset class="social">
+
+                <h3>Social Media</h3>
+                <div class="form-row">
+                    <label for="youtube">YouTube</label>
+                    <input type="text" id="youtube" name="youtube">
+                </div>
+
+                <div class="form-row">
+                    <label for="facebook">Facebook</label>
+                    <input type="text" id="facebook" name="facebook">
+                </div>
+
+                <div class="form-row">
+                    <label for="twitter">Twitter</label>
+                    <input type="text" id="twitter" name="twitter">
+                </div>
+
+                <div class="form-row">
+                    <label for="instagram">Instagram</label>
+                    <input type="text" id="instagram" name="instagram">
+                </div>
+
+                <div class="form-row">
+                    <label for="linkedin">LinkedIn</label>
+                    <input type="text" id="linkedin" name="linkedin">
+                </div>
+
+                <div class="form-row">
+                    <label for="snapchat">Snapchat</label>
+                    <input type="text" id="snapchat" name="snapchat">
+                </div>
+
+                <div class="form-row">
+                    <label for="tiktok">TikTok</label>
+                    <input type="text" id="tiktok" name="tiktok">
+                </div>
+
+            </fieldset>
+
+            <fieldset class="details">
+
+                <h3>Details</h3>
+                <div class="form-row">
+                    <label for="religion">Religion</label>
+                    <input type="text" id="religion" name="religion">
+                </div>
+
+                <div class="form-row">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" id="nationality" name="nationality">
+                </div>
+
+                <div class="form-row">
+                    <label for="ethnicity">Ethnicity</label>
+                    <input type="text" id="ethnicity" name="ethnicity">
+                </div>
+
+            </fieldset>
+
+            <fieldset class="family">
+
+                <h3>Family</h3>
+                <div class="form-row">
+                    <label for="fatherName">Father's Name</label>
+                    <input type="text" id="fatherName" name="fatherName">
+                </div>
+
+                <div class="form-row">
+                    <label for="motherName">Mother's Name</label>
+                    <input type="text" id="motherName" name="motherName">
+                </div>
+
+                <div class="form-row">
+                    <label for="siblings">Siblings</label>
+                    <input type="text" id="siblings" name="siblings">
+                </div>
+
+                <div class="form-row">
+                    <label for="children">Children</label>
+                    <input type="text" id="children" name="children">
+                </div>
+
+            </fieldset>
+            <p>All form data is automatically saved.<br>
+                "Import data" will erase current data.</p>
+            <nav>
+                <button id="import-data" class="blue-button">Import data</button>
+                <button id="submit-form" type="submit">Submit</button>
+            </nav>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var profileData = localStorage.getItem("profileData");
+            if (profileData) {
+                profileData = JSON.parse(profileData);
+                for (var key in profileData) {
+                    var element = document.getElementById(key);
+                    if (element) {
+                        element.value = profileData[key];
+                    }
+                }
+            }
+        });
+
+        document.getElementById("profileForm").addEventListener("input", function () {
+            var formData = new FormData(document.getElementById("profileForm"));
+            var profileData = {};
+            formData.forEach(function (value, key) {
+                profileData[key] = value;
+            });
+            localStorage.setItem("profileData", JSON.stringify(profileData));
+        });
+
+        document.getElementById("import-data").addEventListener("click", function () {
+            var input = document.createElement("input");
+            input.type = "file";
+            input.accept = "application/json";
+            input.onchange = function () {
+                var file = input.files[0];
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var jsonData = reader.result;
+                    var profileData = JSON.parse(jsonData);
+                    for (var key in profileData) {
+                        var element = document.getElementById(key);
+                        if (element) {
+                            element.value = profileData[key];
+                        }
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        });
+        document.getElementById("output").addEventListener("click", function () {
+            var jsonData = this.innerText;
+            var blob = new Blob([jsonData], {
+                type: "application/json"
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "profile.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        document.getElementById("profileForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            var formData = new FormData(document.getElementById("profileForm"));
+            var profileData = {};
+            formData.forEach(function (value, key) {
+                profileData[key] = value;
+            });
+            localStorage.setItem("profileData", JSON.stringify(profileData));
+        });
+        document.getElementById("submit-form").addEventListener("click", function (event) {
+            var formData = new FormData(document.getElementById("profileForm"));
+            var profileData = {};
+            formData.forEach(function (value, key) {
+                profileData[key] = value;
+            });
+            var jsonData = JSON.stringify(profileData, null, 2);
+            document.getElementById("output").innerText = jsonData;
+            document.getElementById("profileForm").hidden = true;
+            document.getElementById("results").hidden = false;
+        });
+        document.getElementById("saveButton").addEventListener("click", function () {
+            var jsonData = document.getElementById("output").innerText;
+            var blob = new Blob([jsonData], {
+                type: "application/json"
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "profile.json";
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+        document.getElementById("editButton").addEventListener("click", function () {
+            document.getElementById("profileForm").hidden = false;
+            document.getElementById("results").hidden = true;
+        });
+        document.getElementById("saveWordList").addEventListener("click", function () {
+            var jsonData = document.getElementById("output").innerText;
+            var profileData = JSON.parse(jsonData);
+            var words = [];
+            for (var key in profileData) {
+                var value = profileData[key];
+                if (value)
+                    words = words.concat(value.split(/\s+/));
+            }
+            var uniqueWords = Array.from(new Set(words));
+            var wordList = uniqueWords.join("\n");
+
+            // Generate all combinations of 3 words
+            var combinations = generateCombinations(uniqueWords, 2);
+            combinations = combinations.concat(generateCombinations(uniqueWords, 3));
+
+            // Generate all variants of the combinations in any order
+            var variants = generateVariants(combinations);
+            console.log(variants);
+
+            var variantList = variants.join("\n").replace(/,/g, "");
+            var blob = new Blob([variantList], {
+                type: "text/plain"
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "variantlist.txt";
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        function generateCombinations(arr, k) {
+            var combinations = [];
+            var helper = function (arr, k, start, combination) {
+                if (combination.length === k) {
+                    combinations.push(combination.slice());
+                    return;
+                }
+                for (var i = start; i < arr.length; i++) {
+                    combination.push(arr[i]);
+                    helper(arr, k, i + 1, combination);
+                    combination.pop();
+                }
+            }
+            helper(arr, k, 0, []);
+            return combinations;
+        }
+
+        function generateVariants(combinations) {
+            var variants = [];
+            for (var i = 0; i < combinations.length; i++) {
+                var combination = combinations[i];
+                var permutedCombos = permute(combination);
+                variants = variants.concat(permutedCombos);
+            }
+            return variants;
+        }
+
+        function permute(arr) {
+            var permutations = [];
+            var helper = function (arr, permutation) {
+                if (arr.length === 0) {
+                    permutations.push(permutation.slice());
+                    return;
+                }
+                for (var i = 0; i < arr.length; i++) {
+                    var rest = arr.slice(0, i).concat(arr.slice(i + 1));
+                    helper(rest, permutation.concat(arr[i]));
+                }
+            }
+            helper(arr, []);
+            return permutations;
+        }
+    </script>
+</body>
+
+</html>
