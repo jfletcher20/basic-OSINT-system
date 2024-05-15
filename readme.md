@@ -3,7 +3,7 @@ This is a simplistic Open-Source Intelligence gathering system developed as an e
 
 ## Disclaimer
 It is not meant to be an actual tool used for any nefarious purpose whatsoever.
-This is a very simple demo and a such is a 'dirty' solution; code organization and cleanliness were not taken into account and the CSS+JS are combined into the same HTML document to make it simple to run the code.
+This is a very simple demo and as such is a 'dirty' solution; code organization and cleanliness were not taken into account and the CSS+JS are combined into the same HTML document to make it simple to run the code.
 
 
 ## Features
